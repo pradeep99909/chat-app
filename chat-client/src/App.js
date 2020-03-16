@@ -32,7 +32,7 @@ class App extends React.Component {
             }}
           >
             <Switch>
-              <Route path="/chat/:user" component={ChatHistory}
+              <Route path="/chat/:user" component={ChatHistory} />
             </Switch>
             <img
               src={image}
