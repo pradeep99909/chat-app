@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css?family=Lobster&display=swap");
+
+* {
+  --blue--: #6a74ff;
+  --black--: #2c2c2e;
+  --white--: #fefefe;
+}
+
+::selection {
+  background-color: var(--blue--);
+  color: var(--white--);
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  /* background-color: var(--blue--); */
+}
+
+.App {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.chat-left {
+  width: 40%;
+  background-color: var(--white--);
+}
+
+.chat-left .chat-header {
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.chat-left .chat-header h1 {
+  font-family: "Lobster", cursive;
+  color: var(--blue--);
+  font-size: 24px;
+  font-weight: 100;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.chat-left .chat-top {
+  display: flex;
+  width: 100%;
+}
+
+.chat-top .chat-top-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.chat-top-box i {
+  width: 100%;
+  height: 65px;
+  color: var(--black--);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-main {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  height: calc(100% - 120px);
+}
+
+.chat-main::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+  opacity: 0.3;
+}
+
+.chat-main::-webkit-scrollbar-thumb {
+  background: var(--blue--);
+  border-radius: 10px;
+  opacity: 0.5;
+  width: 8px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.chat-main .chat-user {
+  display: flex;
+  margin: 10px 0px;
+  cursor: pointer;
+}
+
+.chat-user-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-left: 10px;
+}
+
+.chat-user .chat-user-message h4,
+.chat-user .chat-user-message p {
+  margin-block-end: 0;
+  margin-block-start: 0;
+  font-family: sans-serif;
+}
+
+.chat-top-box .bar {
+  background-color: var(--blue--);
+  width: 100%;
+}
+
+.chat-right {
+  background-color: var(--black--);
+}
