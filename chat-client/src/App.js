@@ -7,6 +7,9 @@ import ChatMain from "./component/chatmain/chatmain";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import ChatHistory from "./component/chathistory/chathistory";
 import empty from "./component/chathistory/empty";
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory();
 
 class App extends React.Component {
   constructor(props) {
@@ -15,15 +18,17 @@ class App extends React.Component {
   }
   render() {
     return (
-      <BrowserRouter>
+      <BrowserRouter history={history}>
         <div className="App">
-          <div class="chat-left" style={{ width: "30%" }}>
+          <div className="chat-left" style={{ width: "30%" }}>
             <ChatHeader />
             <ChatTop />
-            <ChatMain />
+            <Switch>
+              <Route component={ChatMain} exact />
+            </Switch>
           </div>
           <div
-            class="chat-right"
+            className="chat-right"
             style={{
               width: "70%",
               display: "flex",

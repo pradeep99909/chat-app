@@ -1,5 +1,5 @@
 import React from "react";
-
+import { withRouter } from "react-router-dom";
 class chatuser extends React.Component {
   constructor(props) {
     super(props);
@@ -7,7 +7,12 @@ class chatuser extends React.Component {
   }
   render() {
     return (
-      <div className="chat-user">
+      <div
+        className="chat-user"
+        onClick={() => {
+          this.props.history.push("/chat/" + this.props.name);
+        }}
+      >
         <img
           alt="user"
           style={{ borderRadius: "100%" }}
@@ -16,7 +21,7 @@ class chatuser extends React.Component {
           src="https://images.unsplash.com/photo-1527980965255-d3b416303d12"
         />
         <div className="chat-user-message">
-          <h4 style={{ fontSize: 16 }}>John Default</h4>
+          <h4 style={{ fontSize: 16 }}>{this.props.name}</h4>
           <p style={{ fontSize: 14 }} className="chat-message">
             dasasf
           </p>
@@ -26,4 +31,4 @@ class chatuser extends React.Component {
   }
 }
 
-export default chatuser;
+export default withRouter(chatuser);
