@@ -45,6 +45,7 @@
   font-weight: 100;
   margin-block-start: 0;
   margin-block-end: 0;
+  cursor: pointer;
 }
 
 .chat-left .chat-top {
