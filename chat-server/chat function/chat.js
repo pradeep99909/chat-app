@@ -34,6 +34,30 @@ class Chat {
     );
   }
 
+  send_message(data, callback) {
+    mongo.MongoClient.connect(
+      "mongodb+srv://admin:admin78@cluster0-h9gpw.mongodb.net/test?retryWrites=true&w=majority",
+      { useUnifiedTopology: true },
+      (err, db) => {
+        if (err) {
+          callback(err);
+        }
+        var dbo = db.db("chat");
+        dbo
+          .collection("messages")
+          .insertOne({
+            from: data.from,
+            to: data.to,
+            message: data.message,
+            time: data.time
+          })
+          .then((res) => {
+            callback(res);
+          });
+      }
+    );
+  }
+
   get_message_user(uid, callback) {
     mongo.MongoClient.connect(
       "mongodb+srv://admin:admin78@cluster0-h9gpw.mongodb.net/test?retryWrites=true&w=majority",
@@ -47,7 +71,7 @@ class Chat {
           .collection("messages")
           .aggregate([
             {
-              $match: { to: "pradeep" }
+              $match: { to: uid }
             },
             { $unwind: "$from" },
             {

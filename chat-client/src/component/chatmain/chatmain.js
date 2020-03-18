@@ -1,6 +1,8 @@
 import React from "react";
 import ChatUser from "./chatuser";
 
+import axios from "axios";
+
 import { withRouter } from "react-router-dom";
 import Loader from "../loader";
 
@@ -14,14 +16,14 @@ class chatmain extends React.Component {
   }
 
   get_messages = async () => {
-    let body = new FormData();
-    body.append("Content-Type", "application/x-www-form-urlencoded");
-    body.append("uid", "pradeep");
     await fetch("http://127.0.0.1:8000/get_messages", {
-      method: "post",
+      method: "POST",
       mode: "cors",
-
-      body: body
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "text/plain"
+      },
+      body: JSON.stringify({ uid: "pradeep" })
     })
       .then((file) => file.json())
       .then((res) => {
@@ -30,13 +32,14 @@ class chatmain extends React.Component {
   };
 
   get_users = async () => {
-    let body = new FormData();
-    body.append("Content-Type", "application/x-www-form-urlencoded");
-    body.append("uid", "pradeep");
     await fetch("http://127.0.0.1:8000/get_message_user", {
       method: "post",
       mode: "cors",
-      body: body
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "text/plain"
+      },
+      body: JSON.stringify({ uid: "pradeep" })
     })
       .then((file) => file.json())
       .then((res) => {

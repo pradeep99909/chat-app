@@ -199,11 +199,11 @@
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
   color: var(--white--);
-  border: 2px solid var(--white--);
+  border: 1px solid var(--white--);
 }
 
 .chat-history-bottom .material-bottom {
-  width: 50px;
+  width: 30px;
   height: 70px;
   display: flex;
   justify-content: center;
