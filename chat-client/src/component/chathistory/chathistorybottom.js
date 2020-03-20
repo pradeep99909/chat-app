@@ -1,5 +1,5 @@
 import React from "react";
-
+import { withRouter } from "react-router-dom";
 class ChatHistoryBottom extends React.Component {
   constructor(props) {
     super(props);
@@ -24,8 +24,9 @@ class ChatHistoryBottom extends React.Component {
         "Content-Type": "text/plain"
       },
       body: JSON.stringify({
-        from: "opera",
-        to: ,
+        uid_from: localStorage.getItem("chat-app-uid"),
+        from: localStorage.getItem("chat-app-from"),
+        to: this.props.name,
         message: this.state.text,
         time: new Date()
       })
@@ -68,4 +69,4 @@ class ChatHistoryBottom extends React.Component {
   }
 }
 
-export default ChatHistoryBottom;
+export default withRouter(ChatHistoryBottom);

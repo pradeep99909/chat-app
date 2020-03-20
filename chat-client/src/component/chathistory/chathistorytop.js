@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router";
 
 class ChatHistoryTop extends React.Component {
   constructor(props) {
@@ -29,4 +30,4 @@ class ChatHistoryTop extends React.Component {
   }
 }
 
-export default ChatHistoryTop;
+export default withRouter(ChatHistoryTop);
