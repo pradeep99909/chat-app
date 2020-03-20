@@ -1,8 +1,6 @@
 import React from "react";
 import ChatUser from "./chatuser";
 
-import axios from "axios";
-
 import { withRouter } from "react-router-dom";
 import Loader from "../loader";
 
@@ -23,7 +21,7 @@ class chatmain extends React.Component {
         Accept: "application/json",
         "Content-Type": "text/plain"
       },
-      body: JSON.stringify({ uid: "pradeep" })
+      body: JSON.stringify({ uid: localStorage.getItem("chat-app-uid") })
     })
       .then((file) => file.json())
       .then((res) => {
@@ -39,7 +37,7 @@ class chatmain extends React.Component {
         Accept: "application/json",
         "Content-Type": "text/plain"
       },
-      body: JSON.stringify({ uid: "pradeep" })
+      body: JSON.stringify({ uid: localStorage.getItem("chat-app-uid") })
     })
       .then((file) => file.json())
       .then((res) => {
@@ -57,7 +55,13 @@ class chatmain extends React.Component {
       <div className="chat-main">
         {this.state.users !== null ? (
           this.state.users.map((d, key) => {
-            return <ChatUser key={key} name={d._id} />;
+            return (
+              <ChatUser
+                key={key}
+                name={d._id}
+                top_message={this.state.messages}
+              />
+            );
           })
         ) : (
           <Loader />
