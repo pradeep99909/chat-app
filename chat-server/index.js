@@ -18,16 +18,15 @@ app.post("/get_messages", (req, res) => {
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   var Chat1 = new Chat();
-  //console.log(req.body.uid);
   Chat1.get_new_message(req.body.uid, (response) => {
-    res.send(response);
+    res.status(response.status).send(response);
   });
 });
 
 app.post("/chat_history", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "POST");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
   var Chat1 = new Chat();
   Chat1.chat_history({ uid: req.body.uid, to: req.body.to }, (response) => {
     res.send(response);
@@ -100,7 +99,34 @@ const server = app.listen(8000);
 const io = socket(server);
 
 io.on("connection", (socket) => {
-  io.on("message", (message) => {
-    console.log(message);
+  socket.on("send-message", (data) => {
+    var Chat1 = new Chat();
+    var Auth1 = new Auth();
+    console.log(data.from + ":" + data.message);
+    Auth1.getUID(data.to, (res) => {
+      //socket.join("hello");
+      socket.broadcast.emit(res, data);
+
+      Chat1.send_message(
+        {
+          from_uid: data.uid_from,
+          from: data.from,
+          to: data.to,
+          message: data.message,
+          time: data.time
+        },
+        () => {
+          Chat1.chat_history(
+            {
+              uid: data.uid_from,
+              to: data.to
+            },
+            () => {
+              null;
+            }
+          );
+        }
+      );
+    });
   });
 });
