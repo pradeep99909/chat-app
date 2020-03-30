@@ -96,6 +96,23 @@ class Auth {
       }
     );
   }
+  getUID(username, callback) {
+    MongoClient.connect(
+      process.env.mongoconnect,
+      { useUnifiedTopology: true, useNewUrlParser: true },
+      (err, db) => {
+        if (!err) {
+          var dbo = db.db("chat");
+          dbo
+            .collection("users")
+            .findOne({ username })
+            .then((res) => {
+              callback(res.uid);
+            });
+        }
+      }
+    );
+  }
 }
 
 module.exports = Auth;

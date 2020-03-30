@@ -6,7 +6,7 @@ class Chat {
   get_new_message(uid, callback) {
     mongo.MongoClient.connect(
       process.env.mongoconnect,
-      { useUnifiedTopology: true },
+      { useUnifiedTopology: true, useNewUrlParser: true },
       (err, db) => {
         if (err) {
           callback(err);
@@ -21,41 +21,64 @@ class Chat {
               $group: { _id: "$from" }
             }
           ])
-
           .toArray()
           .then((res) => {
-            callback(res);
+            callback({
+              status: 200,
+              message: res,
+              success: true
+            });
+          })
+          .catch(() => {
+            callback({
+              status: 400,
+              message: "Network Error",
+              success: false
+            });
           });
-        //console.log(collection);
       }
     );
   }
 
-  chat_history(data, callback) {
+  async chat_history(data, callback) {
     mongo.MongoClient.connect(
       process.env.mongoconnect,
-      { useUnifiedTopology: true },
-      (err, db) => {
+      { useUnifiedTopology: true, useNewUrlParser: true },
+      async (err, db) => {
         if (err) {
-          callback(err);
-        } else {
-          var dbo = db.db("chat");
-          dbo
-            .collection("messages")
-            .find({
-              $or: [
-                { from_uid: data.uid, to: data.to },
-                {
-                  to_uid: data.uid,
-                  from: data.to
-                }
-              ]
-            })
-            .toArray()
-            .then((res) => {
-              callback(res);
-            });
+          callback({
+            status: 400,
+            message: "Network Error",
+            success: false
+          });
         }
+        var dbo = db.db("chat");
+        await dbo
+          .collection("messages")
+          .find({
+            $or: [
+              { from_uid: data.uid, to: data.to },
+              {
+                to_uid: data.uid,
+                from: data.to
+              }
+            ]
+          })
+          .toArray()
+          .then((res) => {
+            callback({
+              status: 200,
+              message: res,
+              success: true
+            });
+          })
+          .catch(() => {
+            callback({
+              status: 400,
+              message: "Database Error",
+              success: false
+            });
+          });
       }
     );
   }
@@ -76,18 +99,39 @@ class Chat {
             if (user !== null) {
               dbo
                 .collection("messages")
-                .insertOne({
-                  from_uid: data.from_uid,
-                  to_uid: user.uid,
-                  from: data.from,
-                  to: data.to,
-                  message: data.message,
-                  time: data.time
+                .insertOne(
+                  {
+                    from_uid: data.from_uid,
+                    to_uid: user.uid,
+                    from: data.from,
+                    to: data.to,
+                    message: data.message,
+                    time: data.time
+                  },
+                  { writeConcern: { w: "majority" } }
+                )
+                .then(() => {
+                  callback({
+                    status: 200,
+                    message: "Message Sent",
+                    success: true
+                  });
                 })
-                .then((res) => {
-                  callback(res);
+                .catch(() => {
+                  callback({
+                    status: 400,
+                    message: "Database Error",
+                    success: false
+                  });
                 });
             }
+          })
+          .catch((err) => {
+            callback({
+              status: 400,
+              message: "Database Error",
+              success: false
+            });
           });
       }
     );
