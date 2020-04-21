@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Chat from "./chat";
 import { createBrowserHistory } from "history";
 import Auth from "./component/chatauth/login";
@@ -182,6 +182,7 @@ class App extends React.Component {
       <BrowserRouter history={history}>
         <Provider store={store}>
           <div className="App">
+            <Redirect from="/" to="/chat" />
             <Route path="/account/login" component={Auth} exact />
             <Route path="/chat" component={Chat}>
               <Route path="/:user" component={Chat} />

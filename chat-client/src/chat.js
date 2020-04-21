@@ -20,21 +20,56 @@ class Chat extends React.Component {
   render() {
     return (
       <div className="chat">
-        <div className="chat-left" style={{ width: "30%" }}>
+        <div
+          className="chat-left"
+          style={{
+            width:
+              this.props.location.pathname === "/chat" &&
+              window.matchMedia("(max-width: 500px)").matches
+                ? "100%"
+                : this.props.match.params.user &&
+                  window.matchMedia("(max-width: 500px)").matches
+                ? "0%"
+                : "30%",
+            display:
+              this.props.location.pathname === "/chat" &&
+              window.matchMedia("(max-width: 500px)").matches
+                ? "block"
+                : this.props.match.params.user &&
+                  window.matchMedia("(max-width: 500px)").matches
+                ? "none"
+                : "block",
+          }}
+        >
           <ChatHeader />
-          <ChatTop />
+          {/* <ChatTop /> */}
           <Switch>
             <Route path="/chat" component={ChatMain} exact />
             <Route path="/chat/:user" component={ChatMain} exact />
+            <Route path="/" />
           </Switch>
         </div>
         <div
           className="chat-right"
           style={{
-            width: "70%",
-            display: "flex",
+            width:
+              this.props.location.pathname === "/chat" &&
+              window.matchMedia("(max-width: 500px)").matches
+                ? "0%"
+                : this.props.match.params.user &&
+                  window.matchMedia("(max-width: 500px)").matches
+                ? "100%"
+                : "70%",
+            display:
+              this.props.location.pathname === "/chat" &&
+              window.matchMedia("(max-width: 500px)").matches
+                ? "none"
+                : this.props.match.params.user &&
+                  window.matchMedia("(max-width: 500px)").matches
+                ? "flex"
+                : "flex",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Switch>
