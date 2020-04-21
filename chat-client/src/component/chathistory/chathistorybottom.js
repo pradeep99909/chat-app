@@ -4,20 +4,24 @@ import io from "socket.io-client";
 import ChatOption from "./chatoption";
 import { connect } from "react-redux";
 
+import { v4 as uuidv4 } from "uuid";
+import socket from "../../socket";
+import firebase from "../config/config";
+
 class ChatHistoryBottom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       text: "",
-      display: "none"
+      display: "none",
     };
-    this.socket = io("http://127.0.0.1:8000").connect();
+    this.socket = io("https://chat-server.pradeep99909.now.sh");
   }
   handle = (e) => {
     const { name, value } = e.target;
     this.setState((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -25,12 +29,12 @@ class ChatHistoryBottom extends React.Component {
     if (this.state.display === "none") {
       this.setState((prev) => ({
         ...prev,
-        display: "block"
+        display: "block",
       }));
     } else {
       this.setState((prev) => ({
         ...prev,
-        display: "none"
+        display: "none",
       }));
     }
   };
@@ -44,20 +48,22 @@ class ChatHistoryBottom extends React.Component {
           from: localStorage.getItem("chat-app-from"),
           to: this.props.name,
           message: this.state.text,
-          time: new Date()
-        }
+          type: "message",
+          time: new Date(),
+        },
       });
       this.socket.emit("send-message", {
         uid_from: localStorage.getItem("chat-app-uid"),
         from: localStorage.getItem("chat-app-from"),
         to: this.props.name,
         message: this.state.text,
-        time: new Date()
+        type: "message",
+        time: new Date(),
       });
     }
     this.setState((prev) => ({
       ...prev,
-      text: ""
+      text: "",
     }));
   };
 
@@ -67,7 +73,7 @@ class ChatHistoryBottom extends React.Component {
 
       this.setState((prev) => ({
         ...prev,
-        text: ""
+        text: "",
       }));
     }
   };
@@ -93,16 +99,141 @@ class ChatHistoryBottom extends React.Component {
           options={[
             {
               name: "Gallery",
-              icon: "insert_photo"
+              icon: "insert_photo",
+              fun: () => {
+                var a = document.createElement("input");
+                a.setAttribute("type", "file");
+                a.setAttribute(
+                  "accept",
+                  "image/png, image/jpeg, image/gif, image/jpeg"
+                );
+                //a.setAttribute("multiple", true);
+                a.click();
+                const { dispatch, name } = this.props;
+                const { emit } = this.socket;
+                a.onchange = async () => {
+                  var uid = uuidv4();
+                  var storageref = firebase.storage().ref();
+
+                  storageref
+                    .child("/messages/" + uid + "/0.jpg")
+                    .put(a.files[0]);
+
+                  dispatch({
+                    type: "ADD_MESSAGE",
+                    payload: {
+                      uid_from: localStorage.getItem("chat-app-uid"),
+                      from: localStorage.getItem("chat-app-from"),
+                      to: name,
+                      message: uid,
+                      type: "media",
+                      time: new Date(),
+                    },
+                  });
+                  socket.emit("send-message", {
+                    uid_from: localStorage.getItem("chat-app-uid"),
+                    from: localStorage.getItem("chat-app-from"),
+                    to: name,
+                    message: uid,
+                    type: "media",
+                    time: new Date(),
+                  });
+
+                  this.setState((prev) => ({
+                    ...prev,
+                    display: "none",
+                  }));
+                };
+              },
             },
             {
               name: "Share Location",
-              icon: "location_on"
+              icon: "location_on",
+              fun: () => {
+                const { dispatch, name } = this.props;
+                const { emit } = this.socket;
+
+                navigator.geolocation.getCurrentPosition((position) => {
+                  dispatch({
+                    type: "ADD_MESSAGE",
+                    payload: {
+                      uid_from: localStorage.getItem("chat-app-uid"),
+                      from: localStorage.getItem("chat-app-from"),
+                      to: name,
+                      type: "location",
+                      message: [
+                        position.coords.longitude,
+                        position.coords.latitude,
+                      ],
+                      time: new Date(),
+                    },
+                  });
+                  socket.emit("send-message", {
+                    uid_from: localStorage.getItem("chat-app-uid"),
+                    from: localStorage.getItem("chat-app-from"),
+                    to: name,
+                    type: "location",
+                    message: [
+                      position.coords.latitude,
+                      position.coords.longitude,
+                    ],
+                    time: new Date(),
+                  });
+                  this.setState((prev) => ({
+                    ...prev,
+                    display: "none",
+                  }));
+                });
+              },
             },
             {
               name: "Document",
-              icon: "assignment"
-            }
+              icon: "assignment",
+              fun: () => {
+                var a = document.createElement("input");
+                a.setAttribute("type", "file");
+                a.setAttribute(
+                  "accept",
+                  "application/pdf,application/ods,application/pptx,application/html,application/csv,application/xlsx"
+                );
+                //a.setAttribute("multiple", true);
+                a.click();
+                const { dispatch, name } = this.props;
+                const { emit } = this.socket;
+                a.onchange = async () => {
+                  var uid = uuidv4();
+                  var storageref = firebase.storage().ref();
+
+                  storageref
+                    .child("/messages/" + uid + "/" + a.files[0].name)
+                    .put(a.files[0]);
+
+                  dispatch({
+                    type: "ADD_MESSAGE",
+                    payload: {
+                      uid_from: localStorage.getItem("chat-app-uid"),
+                      from: localStorage.getItem("chat-app-from"),
+                      to: name,
+                      message: uid,
+                      type: "document",
+                      time: new Date(),
+                    },
+                  });
+                  socket.emit("send-message", {
+                    uid_from: localStorage.getItem("chat-app-uid"),
+                    from: localStorage.getItem("chat-app-from"),
+                    to: name,
+                    message: uid,
+                    type: "document",
+                    time: new Date(),
+                  });
+                  this.setState((prev) => ({
+                    ...prev,
+                    display: "none",
+                  }));
+                };
+              },
+            },
           ]}
         />
         <i className="material-icons material-bottom">keyboard_voice</i>
@@ -118,7 +249,7 @@ class ChatHistoryBottom extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    messages: state.messages
+    messages: state.messages,
   };
 };
 
