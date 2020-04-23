@@ -1,4 +1,5 @@
-##Chat-App
+## Chat-App
+
 App is built using MongoDB,ExpressJS,ReactJS and Node
 
 #### Chat-Client
@@ -30,7 +31,7 @@ Chat - Server is Server API to request data.
   -- /send_message
 - Socket for real time data communication.
 
-####Features of the App
+#### Features of the App
 
 - Share Image and Document.
 - Send Current Location.
