@@ -4,6 +4,10 @@ App is built using MongoDB,ExpressJS,ReactJS and Node
 
 #### Chat-Client
 
+![App](https://github.com/pradeep99909/chat-app/blob/master/1.PNG?raw=true)
+
+![App](https://github.com/pradeep99909/chat-app/blob/master/2.PNG?raw=true)
+
 Chat client contain the ReactJS Code used for development of front end Web Application.
 
 - Used WebSocket
