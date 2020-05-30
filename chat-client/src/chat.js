@@ -5,6 +5,7 @@ import ChatMain from "./component/chatmain/chatmain";
 import { Switch, Route } from "react-router-dom";
 import ChatHistory from "./component/chathistory/chathistory";
 import empty from "./component/chathistory/empty";
+import ChatSearchNew from "./component/chatmain/chatsearchnew";
 
 class Chat extends React.Component {
   constructor(props) {
@@ -24,7 +25,8 @@ class Chat extends React.Component {
           className="chat-left"
           style={{
             width:
-              this.props.location.pathname === "/chat" &&
+              (this.props.location.pathname === "/chat" ||
+                this.props.location.pathname === "/search") &&
               window.matchMedia("(max-width: 500px)").matches
                 ? "100%"
                 : this.props.match.params.user &&
@@ -32,7 +34,8 @@ class Chat extends React.Component {
                 ? "0%"
                 : "30%",
             display:
-              this.props.location.pathname === "/chat" &&
+              (this.props.location.pathname === "/chat" ||
+                this.props.location.pathname === "/search") &&
               window.matchMedia("(max-width: 500px)").matches
                 ? "block"
                 : this.props.match.params.user &&
@@ -46,14 +49,15 @@ class Chat extends React.Component {
           <Switch>
             <Route path="/chat" component={ChatMain} exact />
             <Route path="/chat/:user" component={ChatMain} exact />
-            <Route path="/" />
+            <Route path="/search" component={ChatSearchNew} exact />
           </Switch>
         </div>
         <div
           className="chat-right"
           style={{
             width:
-              this.props.location.pathname === "/chat" &&
+              (this.props.location.pathname === "/chat" ||
+                this.props.location.pathname === "/search") &&
               window.matchMedia("(max-width: 500px)").matches
                 ? "0%"
                 : this.props.match.params.user &&
@@ -61,7 +65,8 @@ class Chat extends React.Component {
                 ? "100%"
                 : "70%",
             display:
-              this.props.location.pathname === "/chat" &&
+              (this.props.location.pathname === "/chat" ||
+                this.props.location.pathname === "/search") &&
               window.matchMedia("(max-width: 500px)").matches
                 ? "none"
                 : this.props.match.params.user &&
@@ -73,6 +78,7 @@ class Chat extends React.Component {
           }}
         >
           <Switch>
+            <Route path="/search" component={empty} exact />
             <Route path="/chat/:user" component={ChatHistory} exact />
             <Route component={empty} />
           </Switch>
