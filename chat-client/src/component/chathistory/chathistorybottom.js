@@ -1,6 +1,5 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import io from "socket.io-client";
 import ChatOption from "./chatoption";
 import { connect } from "react-redux";
 
@@ -15,7 +14,7 @@ class ChatHistoryBottom extends React.Component {
       text: "",
       display: "none",
     };
-    this.socket = io("https://chat-server.pradeep99909.now.sh");
+    //this.socket = io("https://chat-server.pradeep99909.now.sh");
   }
   handle = (e) => {
     const { name, value } = e.target;
@@ -52,7 +51,7 @@ class ChatHistoryBottom extends React.Component {
           time: new Date(),
         },
       });
-      this.socket.emit("send-message", {
+      socket.emit("send-message", {
         uid_from: localStorage.getItem("chat-app-uid"),
         from: localStorage.getItem("chat-app-from"),
         to: this.props.name,
@@ -110,7 +109,7 @@ class ChatHistoryBottom extends React.Component {
                 //a.setAttribute("multiple", true);
                 a.click();
                 const { dispatch, name } = this.props;
-                const { emit } = this.socket;
+                //const { emit } = this.socket;
                 a.onchange = async () => {
                   var uid = uuidv4();
                   var storageref = firebase.storage().ref();
@@ -151,7 +150,7 @@ class ChatHistoryBottom extends React.Component {
               icon: "location_on",
               fun: () => {
                 const { dispatch, name } = this.props;
-                const { emit } = this.socket;
+                //const { emit } = this.socket;
 
                 navigator.geolocation.getCurrentPosition((position) => {
                   dispatch({
@@ -199,7 +198,7 @@ class ChatHistoryBottom extends React.Component {
                 //a.setAttribute("multiple", true);
                 a.click();
                 const { dispatch, name } = this.props;
-                const { emit } = this.socket;
+                //const { emit } = this.socket;
                 a.onchange = async () => {
                   var uid = uuidv4();
                   var storageref = firebase.storage().ref();
