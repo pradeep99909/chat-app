@@ -1,5 +1,6 @@
 import React from "react";
-import { Switch, Route } from "react-router";
+import { Switch, Route, withRouter } from "react-router";
+import { Link } from "react-router-dom";
 
 class Login extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class Login extends React.Component {
       email: "",
       password: "",
       error: "",
-      loading: false
+      loading: false,
     };
   }
   login = (e) => {
@@ -17,32 +18,33 @@ class Login extends React.Component {
       this.setState((prev) => ({
         ...prev,
         error: "",
-        loading: true
+        loading: true,
       }));
-      fetch("http://127.0.0.1:8000/auth_login", {
+      fetch(process.env.REACT_APP_SERVER + "/auth_login", {
         method: "POST",
         mode: "cors",
         headers: {
           Accept: "application/json",
-          "Content-Type": "text/plain"
+          "Content-Type": "text/plain",
         },
         body: JSON.stringify({
           email: this.state.email,
-          password: this.state.password
-        })
+          password: this.state.password,
+        }),
       }).then((file) => {
         file.json().then((res) => {
           if (!res.success) {
             this.setState((prev) => ({
               ...prev,
               error: res.message,
-              loading: false
+              loading: false,
             }));
           } else {
-            this.props.history.push("/chat");
-            localStorage.setItem("chat-app-from", res.from);
+            localStorage.setItem("chat-app-from", res.username);
             localStorage.setItem("chat-app-uid", res.uid);
+            localStorage.setItem("chat-app-token", res.token);
             localStorage.setItem("chat-app-isLogined", true);
+            this.props.history.push("/chat");
           }
         });
       });
@@ -53,7 +55,7 @@ class Login extends React.Component {
     const { name, value } = e.target;
     this.setState((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
   render() {
@@ -82,7 +84,111 @@ class Login extends React.Component {
               alignSelf: "flex-start",
               fontFamily: "sans-serif",
               color: "red",
-              fontSize: 14
+              fontSize: 14,
+            }}
+          >
+            {this.state.error}
+          </p>
+        </form>
+        <Link style={{ color: "var(--blue--)" }} to="/account/register">
+          Register?
+        </Link>
+      </div>
+    );
+  }
+}
+
+class Register extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      email: "",
+      password: "",
+      error: "",
+      loading: false,
+    };
+  }
+  login = (e) => {
+    e.preventDefault();
+    if (this.state.email !== "" && this.state.password !== "") {
+      this.setState((prev) => ({
+        ...prev,
+        error: "",
+        loading: true,
+      }));
+      fetch("https://chat-server.pradeep99909.now.sh/auth_register", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "text/plain",
+        },
+        body: JSON.stringify({
+          username: this.state.username,
+          email: this.state.email,
+          password: this.state.password,
+        }),
+      }).then((file) => {
+        file.json().then((res) => {
+          if (!res.success) {
+            this.setState((prev) => ({
+              ...prev,
+              error: res.message,
+              loading: false,
+            }));
+          } else {
+            localStorage.setItem("chat-app-from", res.from);
+            localStorage.setItem("chat-app-uid", res.uid);
+            localStorage.setItem("chat-app-token", res.token);
+            localStorage.setItem("chat-app-isLogined", true);
+            this.props.history.push("/chat");
+          }
+        });
+      });
+    }
+  };
+
+  handle = (e) => {
+    const { name, value } = e.target;
+    this.setState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  render() {
+    return (
+      <div className="chat-login-main">
+        <h3>Register</h3>
+        <form>
+          <input
+            type="text"
+            placeholder="Username"
+            name="username"
+            onChange={this.handle}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            onChange={this.handle}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            onChange={this.handle}
+          />
+          <button onClick={this.login}>
+            {this.state.loading ? <div className="load"></div> : null}
+            &nbsp;Register
+          </button>
+          <p
+            style={{
+              alignSelf: "flex-start",
+              fontFamily: "sans-serif",
+              color: "red",
+              fontSize: 14,
             }}
           >
             {this.state.error}
@@ -104,11 +210,11 @@ class Auth extends React.Component {
         <h3>Chat App</h3>
         <Switch>
           <Route path="/account/login" component={Login} exact />
-          <Route path="/account/register" component={Login} exact />
+          <Route path="/account/register" component={Register} exact />
         </Switch>
       </div>
     );
   }
 }
 
-export default Auth;
+export default withRouter(Auth);
