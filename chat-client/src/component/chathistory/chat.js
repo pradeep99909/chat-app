@@ -1,6 +1,8 @@
 import React from "react";
 import mapboxgl from "mapbox-gl";
 import firebase from "../config/config";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 require("dotenv").config();
 
 class Chat extends React.Component {
@@ -118,8 +120,9 @@ class Chat extends React.Component {
         ) : this.props.type === "media" ? (
           <img
             src={
-              this.state.image ||
-              "https://motiongraphicsphoebe.files.wordpress.com/2018/10/8ee212dac057d412972e0c8cc164deee.gif"
+              this.state.image
+              //||
+              //"https://motiongraphicsphoebe.files.wordpress.com/2018/10/8ee212dac057d412972e0c8cc164deee.gif"
             }
             height="auto"
             width="300"
@@ -169,5 +172,10 @@ class Chat extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    messages: state.messages,
+  };
+};
 
-export default Chat;
+export default withRouter(connect(mapStateToProps)(Chat));
