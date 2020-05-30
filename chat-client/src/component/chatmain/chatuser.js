@@ -22,7 +22,10 @@ class chatuser extends React.Component {
         />
         <div className="chat-user-message">
           <h4 style={{ fontSize: 16 }}>{this.props.name}</h4>
-          <p style={{ fontSize: 14 }} className="chat-message">
+          <p
+            style={{ fontSize: 14, textOverflow: "ellipsis", width: "100%" }}
+            className="chat-message"
+          >
             {this.props.top_message}
           </p>
         </div>

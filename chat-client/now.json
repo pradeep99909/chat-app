@@ -1,0 +1,8 @@
+{
+  "env": {
+    "REACT_APP_MAPBOX": "pk.eyJ1Ijoic2lzYXBpNzkzOSIsImEiOiJjazYwbnFjM3QwOTdkM21wa3p3MGFoODBlIn0.X0_rZjn7eQ2jIOOhqPG1AA",
+    "REACT_APP_BUCKET": "chat-app-reactjs",
+    "REACT_APP_LOCATION": "US East (N. Virginia) us-east-1",
+    "REACT_APP_SERVER": "https://chat-server.pradeep99909.now.sh/"
+  }
+}
