@@ -126,7 +126,7 @@ app.post("/get_message_user", verifyUser, (req, res) => {
     res.send(response);
   });
 });
-const server = app.listen(8000);
+const server = app.listen(8000 || process.env.PORT);
 
 const io = socket(server);
 
