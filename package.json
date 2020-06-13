@@ -1,0 +1,11 @@
+{
+  "name": "chat-app",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "cd chat-client && npm install && npm run build && cd .. && cd chat-server && npm install && nodemon index.js"
+  },
+  "description": "App is built using MongoDB,ExpressJS,ReactJS and Node",
+  "main": "./chat-server/index.js",
+  "author": "",
+  "license": "ISC"
+}
