@@ -1,7 +1,7 @@
 const mongo = require("mongodb");
 require("dotenv").config();
 const Auth = require("../auth_function/auth");
-
+const { ObjectId } = require("mongodb");
 var Auth1 = new Auth();
 
 class Chat {
@@ -24,6 +24,7 @@ class Chat {
           },
           {
             $project: {
+              _id: 1,
               uid_from: 1,
               from: 1,
               to: 1,
@@ -46,6 +47,7 @@ class Chat {
               _id: "$users",
               messages: {
                 $push: {
+                  _id: "$_id",
                   uid_from: "$from_uid",
                   from: "$from",
                   to: "$to",
@@ -84,6 +86,33 @@ class Chat {
   //   // )
 
   // }
+
+  async chat_delete_message(id, callback) {
+    var db = await mongo.MongoClient.connect(
+      "mongodb+srv://admin:admin78@cluster0-h9gpw.mongodb.net/test?retryWrites=true&w=majority",
+      { useUnifiedTopology: true, useNewUrlParser: true }
+    );
+    console.log(id);
+    var dbo = await db.db("chat");
+    dbo
+      .collection("messages")
+      .deleteOne({ _id: ObjectId(id) })
+      .then((res) => {
+        if (res.deletedCount > 0) {
+          callback({
+            status: 200,
+            message: "Message Deleted Sucessfully",
+            success: true,
+          });
+        } else {
+          callback({
+            status: 404,
+            message: "No Messages",
+            success: false,
+          });
+        }
+      });
+  }
 
   async chat_history(data, callback) {
     var db = await mongo.MongoClient.connect(
@@ -133,7 +162,6 @@ class Chat {
         if (user !== null) {
           dbo
             .collection("messages")
-            .collection()
             .insertOne(
               {
                 from_uid: data.from_uid,
