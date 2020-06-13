@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const path = require("path");
 
 const webpush = require("web-push");
 app.use(
@@ -8,6 +9,10 @@ app.use(
     type: ["application/json", "text/plain"],
   })
 );
+app.use(express.static(path.join(__dirname, "../chat-client/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../chat-client/build"));
+});
 var verifyUser = require("./functions/verifyuser");
 require("dotenv").config();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -116,6 +121,17 @@ app.post("/send_message", (req, res) => {
       res.send(response);
     }
   );
+});
+
+app.delete("/delete_message", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  var Chat1 = new Chat();
+  console.log(req.body);
+  Chat1.chat_delete_message(req.body.id, (response) => {
+    res.status(response.status).send(response);
+  });
 });
 
 app.post("/get_message_user", verifyUser, (req, res) => {
