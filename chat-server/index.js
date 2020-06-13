@@ -142,7 +142,7 @@ app.post("/get_message_user", verifyUser, (req, res) => {
     res.send(response);
   });
 });
-const server = app.listen(8000 || process.env.PORT);
+const server = app.listen(process.env.PORT || 8000);
 
 const io = socket(server);
 
