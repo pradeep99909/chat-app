@@ -48,7 +48,7 @@ export async function register(config) {
               "BHzautfuAhAjFSZz20G7SHZa3K_-T2jsy8F5IDdk0vMVn3UNFxtmqRrh5ABeajp2L5X72Im6SAoeXbmHnSwxJCY"
             ),
           });
-          fetch("https://chat-server.pradeep99909.now.sh/subscribe", {
+          fetch("http://localhost:8000/subscribe", {
             method: "POST",
             mode: "cors",
             headers: {

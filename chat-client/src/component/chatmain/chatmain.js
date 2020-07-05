@@ -12,12 +12,13 @@ class chatmain extends React.Component {
     this.state = {
       messages: null,
       users: null,
+      err: null,
     };
   }
 
   get_messages = async () => {
     const { dispatch } = this.props;
-    await fetch(process.env.REACT_APP_SERVER + "/get_messages", {
+    await fetch("http://localhost:8000/get_messages", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -35,7 +36,7 @@ class chatmain extends React.Component {
   };
 
   get_users = async () => {
-    await fetch("https://chat-server.pradeep99909.now.sh/get_message_user", {
+    await fetch("http://localhost:8000/get_message_user", {
       method: "post",
       mode: "cors",
       headers: {
@@ -49,7 +50,12 @@ class chatmain extends React.Component {
           this.setState((prev) => ({ ...prev, users: res }));
         })
       )
-      .catch((err) => alert(JSON.stringify(err)));
+      .catch((err) => {
+        this.setState((prev) => ({
+          ...prev,
+          err: "No Coonection to Internet",
+        }));
+      });
   };
 
   async UNSAFE_componentWillMount() {
@@ -96,7 +102,7 @@ class chatmain extends React.Component {
                   fontFamily: "sans-serif",
                 }}
               >
-                No Conversion
+                {this.state.err !== null ? "err" : "No Conversation"}
               </p>
             </div>
           )

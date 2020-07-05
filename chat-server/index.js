@@ -29,7 +29,7 @@ var Auth = require("./auth_function/auth");
 var { Chat } = require("./chat function/chat");
 
 app.post("/get_messages", verifyUser, (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   var Chat1 = new Chat();
@@ -50,7 +50,7 @@ app.post("/chat_history", (req, res) => {
 });
 
 app.post("/auth_register", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   var Auth1 = new Auth();
@@ -68,7 +68,7 @@ app.post("/auth_register", (req, res) => {
 });
 
 app.post("/subscribe", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -78,7 +78,7 @@ app.post("/subscribe", (req, res) => {
 });
 
 app.post("/auth_login", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   var Auth1 = new Auth();
@@ -94,7 +94,7 @@ app.post("/auth_login", (req, res) => {
 });
 
 app.post("/search", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   var Auth1 = new Auth();
@@ -104,7 +104,7 @@ app.post("/search", (req, res) => {
 });
 
 app.post("/send_message", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   var Chat1 = new Chat();
@@ -126,9 +126,8 @@ app.post("/send_message", (req, res) => {
 app.delete("/delete_message", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
   var Chat1 = new Chat();
-  console.log(req.body);
   Chat1.chat_delete_message(req.body.id, (response) => {
     res.status(response.status).send(response);
   });

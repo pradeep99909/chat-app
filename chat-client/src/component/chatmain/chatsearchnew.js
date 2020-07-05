@@ -11,7 +11,7 @@ class ChatSearchNew extends React.Component {
   }
 
   search = (input) => {
-    fetch("https://chat-server.pradeep99909.now.sh/search", {
+    fetch("http://localhost:8000/search", {
       method: "POST",
       mode: "cors",
       headers: {

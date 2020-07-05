@@ -3,7 +3,6 @@ import mapboxgl from "mapbox-gl";
 import firebase from "../config/config";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import ChatDelete from "./chatdelete";
 require("dotenv").config();
 
 class Chat extends React.Component {
@@ -52,32 +51,38 @@ class Chat extends React.Component {
     }
   }
 
-  delete_options = () => {
-    if (this.state.display_delete_option === "none") {
-      this.setState((prev) => ({
-        ...prev,
-        display_delete_option: "flex",
-      }));
-    } else {
-      this.setState((prev) => ({
-        ...prev,
-        display_delete_option: "none",
-      }));
+  delete_options = (id) => {
+    if (window.confirm("Are you sure you want to delete the message?")) {
+      fetch("http://localhost:8000/delete_message", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "text/plain",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ id }),
+      }).then((file) =>
+        file.json().then((res) => {
+          this.props.dispatch({
+            type: "DELETE_MESSAGE",
+            payload: {
+              id: id,
+              user: this.props.to,
+            },
+          });
+          this.setState((prev) => ({
+            ...prev,
+            display: "none",
+          }));
+        })
+      );
     }
   };
 
   display = () => {
-    if (this.state.display === "none") {
-      this.setState((prev) => ({
-        ...prev,
-        display: "block",
-      }));
-    } else {
-      this.setState((prev) => ({
-        ...prev,
-        display: "none",
-      }));
-    }
+    this.setState((prev) => ({
+      ...prev,
+      display: this.state.display === "none" ? "block" : "none",
+    }));
   };
 
   render() {
@@ -182,14 +187,13 @@ class Chat extends React.Component {
           }}
         >
           <div className="option">Updated Message</div>
-          <div className="option" onClick={this.delete_options}>
+          <div
+            className="option"
+            onClick={() => this.delete_options(this.props.id)}
+          >
             Delete Message
           </div>
         </div>
-        <ChatDelete
-          display={this.state.display_delete_option}
-          id={this.props.id}
-        />
       </div>
     );
   }

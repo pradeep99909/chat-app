@@ -18,7 +18,7 @@ class ChatHistoryMain extends React.Component {
 
   get_chat_history = async (to) => {
     //this.props.dispatch({ type: "SET_MESSAGE" });
-    await fetch("https://chat-server.pradeep99909.now.sh/chat_history", {
+    await fetch("http://localhost:8000/chat_history", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -51,7 +51,7 @@ class ChatHistoryMain extends React.Component {
     //this.get_chat_history(this.props.to);
   };
   componentDidMount() {
-    // this.socket = io("https://chat-server.pradeep99909.now.sh");
+    // this.socket = io("http://localhost:8000");
     socket.on(localStorage.getItem("chat-app-uid"), (data) => {
       this.props.dispatch({ type: "ADD_MESSAGE", payload: data });
     });
@@ -69,7 +69,6 @@ class ChatHistoryMain extends React.Component {
     return (
       <div className="chat-history-main" id="chat-history">
         {this.props.messages !== null ? (
-          // (console.log(this.props.messages),
           this.props.messages
             .filter((don) => {
               if (don._id === this.props.to) {
@@ -81,10 +80,12 @@ class ChatHistoryMain extends React.Component {
                 return (
                   <Chat
                     key={key}
+                    to={this.props.to}
                     from={d.from}
                     message={d.message}
                     type={d.type}
                     time={d.time}
+                    id={d._id}
                   />
                 );
               });

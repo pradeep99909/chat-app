@@ -5,6 +5,7 @@ import Chat from "./chat";
 import { createBrowserHistory } from "history";
 import Auth from "./component/chatauth/login";
 import getkey from "./getKey";
+import getMessageKey from "./get_message_key";
 
 import { createStore } from "redux";
 
@@ -63,6 +64,25 @@ const reducer = function (state = init_state, action) {
       return {
         ...state,
         messages: null,
+      };
+
+    case "DELETE_MESSAGE":
+      var key_user = getkey(state, action.payload.user);
+      var key_id = getMessageKey(
+        state.messages[key_user].messages,
+        action.payload.id
+      );
+      state.messages[key_user].messages = [
+        ...state.messages[key_user].messages.slice(0, key_id),
+        ...state.messages[key_user].messages.slice(
+          key_id + 1,
+          state.messages[key_user].messages.length
+        ),
+      ];
+      console.log(state.messages[key_user].messages.slice(0, key_id));
+      return {
+        ...state,
+        messages: [...state.messages],
       };
 
     default:
