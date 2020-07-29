@@ -36,7 +36,7 @@ class ChatHeader extends React.Component {
               this.props.history.push("/search");
             }}
           >
-            person_add
+            chat
           </i>
           <i className="material-icons" onClick={this.display}>
             more_vert

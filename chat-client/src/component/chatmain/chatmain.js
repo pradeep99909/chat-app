@@ -21,18 +21,25 @@ class chatmain extends React.Component {
     await fetch("http://localhost:8000/get_messages", {
       method: "POST",
       mode: "cors",
+      credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "text/plain",
-        //authorization: "Bearer " + localStorage.getItem("chat-app-token"),
+        Authorization: "Brearer " + localStorage.getItem("chat-app-token"),
       },
       body: JSON.stringify({ uid: localStorage.getItem("chat-app-uid") }),
-    }).then((file) =>
-      file.json().then((res) => {
-        //this.setState((prev) => ({ ...prev, messages: res.message }));
-        dispatch({ type: "GET_MESSAGE", payload: res.message });
-      })
-    );
+    }).then((file) => {
+      if (file.status === 200) {
+        file.json().then((res) => {
+          dispatch({ type: "GET_MESSAGE", payload: res.message });
+        });
+      } else {
+        this.setState((prev) => ({
+          ...prev,
+          err: "Something went wrong. Please check your Internet connection",
+        }));
+      }
+    });
   };
 
   get_users = async () => {
@@ -53,14 +60,14 @@ class chatmain extends React.Component {
       .catch((err) => {
         this.setState((prev) => ({
           ...prev,
-          err: "No Coonection to Internet",
+          err: "No Connection to Internet",
         }));
       });
   };
 
   async UNSAFE_componentWillMount() {
     this.get_messages();
-    this.get_users();
+    //this.get_users();
   }
 
   render() {
@@ -102,10 +109,31 @@ class chatmain extends React.Component {
                   fontFamily: "sans-serif",
                 }}
               >
-                {this.state.err !== null ? "err" : "No Conversation"}
+                No Conversation
               </p>
             </div>
           )
+        ) : this.state.err !== null ? (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <p
+              style={{
+                color: "#838383",
+                fontSize: 14,
+                fontFamily: "sans-serif",
+                textAlign: "center",
+              }}
+            >
+              {this.state.err}
+            </p>
+          </div>
         ) : (
           <Loader />
         )}

@@ -21,9 +21,11 @@ class ChatHistoryMain extends React.Component {
     await fetch("http://localhost:8000/chat_history", {
       method: "POST",
       mode: "cors",
+      credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "text/plain",
+        Authorization: "Brearer " + localStorage.getItem("chat-app-token"),
       },
       body: JSON.stringify({
         uid: localStorage.getItem("chat-app-uid"),

@@ -49,12 +49,12 @@ class Auth {
   async createNewUser(data, callback) {
     var db = await MongoClient.connect(
       "mongodb+srv://admin:admin78@cluster0-h9gpw.mongodb.net/test?retryWrites=true&w=majority",
-      { useUnifiedTopology: true }
+      { useUnifiedTopology: true, useNewUrlParser: true }
     );
 
     var dbo = await db.db("chat");
-    var collection = dbo.collection("users");
-    var email = collection
+    var collection = await dbo.collection("users");
+    collection
       .findOne({ $or: [{ email: data.email }, { username: data.username }] })
       .then((res) => {
         if (res) {
@@ -80,7 +80,7 @@ class Auth {
                 success: true,
               });
             })
-            .catch((err) => {
+            .catch(() => {
               callback({
                 message: "Database Connectivity Error",
                 success: false,

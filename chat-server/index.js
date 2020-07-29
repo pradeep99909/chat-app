@@ -28,18 +28,18 @@ webpush.setVapidDetails(
 var Auth = require("./auth_function/auth");
 var { Chat } = require("./chat function/chat");
 
-app.post("/get_messages", verifyUser, (req, res) => {
+app.post("/get_messages", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   var Chat1 = new Chat();
-
+  //console.log(req.body);
   Chat1.get_new_message(req.body.uid, (response) => {
     res.status(response.status).send(response);
   });
 });
 
-app.post("/chat_history", (req, res) => {
+app.post("/chat_history", verifyUser, (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "POST");
   res.header("Access-Control-Allow-Headers", "Content-Type");
@@ -82,6 +82,7 @@ app.post("/auth_login", (req, res) => {
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   var Auth1 = new Auth();
+  console.log(req.body);
   Auth1.login(
     {
       email: req.body.email,
@@ -93,7 +94,7 @@ app.post("/auth_login", (req, res) => {
   );
 });
 
-app.post("/search", (req, res) => {
+app.post("/user_search", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -103,7 +104,7 @@ app.post("/search", (req, res) => {
   });
 });
 
-app.post("/send_message", (req, res) => {
+app.post("/send_message", verifyUser, (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -123,7 +124,7 @@ app.post("/send_message", (req, res) => {
   );
 });
 
-app.delete("/delete_message", (req, res) => {
+app.delete("/delete_message", verifyUser, (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type");
@@ -133,7 +134,7 @@ app.delete("/delete_message", (req, res) => {
   });
 });
 
-app.post("/get_message_user", verifyUser, (req, res) => {
+app.post("/get_message_user", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
   var Chat1 = new Chat();

@@ -55,9 +55,11 @@ class Chat extends React.Component {
     if (window.confirm("Are you sure you want to delete the message?")) {
       fetch("http://localhost:8000/delete_message", {
         method: "DELETE",
+        credentials: "include",
         headers: {
-          "Content-Type": "text/plain",
           Accept: "application/json",
+          "Content-Type": "text/plain",
+          Authorization: "Brearer " + localStorage.getItem("chat-app-token"),
         },
         body: JSON.stringify({ id }),
       }).then((file) =>
