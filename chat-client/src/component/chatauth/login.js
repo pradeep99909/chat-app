@@ -20,7 +20,7 @@ class Login extends React.Component {
         error: "",
         loading: true,
       }));
-      fetch(process.env.REACT_APP_SERVER + "/auth_login", {
+      fetch(process.env.REACT_APP_SERVER + "auth_login", {
         method: "POST",
         mode: "cors",
         headers: {

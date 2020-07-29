@@ -14,7 +14,7 @@ class ChatDelete extends React.Component {
     }));
   }
   delete_message = (id) => {
-    fetch("http://localhost:8000/delete_message", {
+    fetch(process.env.REACT_APP_SERVER + "delete_message", {
       method: "DELETE",
       headers: {
         "Content-Type": "text/plain",

@@ -17,7 +17,7 @@ class chatmain extends React.Component {
 
   get_messages = async () => {
     const { dispatch } = this.props;
-    await fetch(process.env.REACT_APP_SERVER + "/get_messages", {
+    await fetch(process.env.REACT_APP_SERVER + "get_messages", {
       method: "POST",
       mode: "cors",
       headers: {
