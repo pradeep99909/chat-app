@@ -143,9 +143,8 @@ class Chat extends React.Component {
         ) : this.props.type === "media" ? (
           <img
             src={
-              this.state.image
-              //||
-              //"https://motiongraphicsphoebe.files.wordpress.com/2018/10/8ee212dac057d412972e0c8cc164deee.gif"
+              this.state.image ||
+              "https://motiongraphicsphoebe.files.wordpress.com/2018/10/8ee212dac057d412972e0c8cc164deee.gif"
             }
             height="auto"
             width="300"
@@ -158,9 +157,15 @@ class Chat extends React.Component {
             style={{ width: "280px", height: "150px", borderRadius: "10px" }}
           ></div>
         ) : this.props.type === "document" ? (
-          <a href={this.state.image} download>
-            File
-          </a>
+          <div
+            className="doc"
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            <object data={this.state.image}></object>
+            <a href={this.state.image} download>
+              Download
+            </a>
+          </div>
         ) : (
           <p
             style={{
