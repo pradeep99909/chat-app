@@ -16,16 +16,43 @@ class chatmain extends React.Component {
     };
   }
 
+  async get_test() {
+    await fetch("http://localhost:8000/test", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        uid: "localStorage.getItem(chat-app-uid)",
+        to: "to",
+      }),
+    })
+      .then((file) => file.json())
+      .then((res) => {
+        if (res.success) {
+          //this.props.dispatch({ type: "GET_MESSAGE", payload: res.message });
+          alert(JSON.stringify(res));
+        } else {
+          this.setState((prev) => ({
+            ...prev,
+            error: res.message,
+          }));
+        }
+      });
+  }
+
   get_messages = async () => {
     const { dispatch } = this.props;
     await fetch("http://localhost:8000/get_messages", {
       method: "POST",
       mode: "cors",
-      credentials: "include",
+      //credentials: "include",
       headers: {
         Accept: "application/json",
-        "Content-Type": "text/plain",
-        Authorization: "Brearer " + localStorage.getItem("chat-app-token"),
+        "Content-Type": "application/json",
+        //Authorization: "Brearer " + localStorage.getItem("chat-app-token"),
       },
       body: JSON.stringify({ uid: localStorage.getItem("chat-app-uid") }),
     }).then((file) => {
@@ -66,8 +93,8 @@ class chatmain extends React.Component {
   };
 
   async UNSAFE_componentWillMount() {
-    this.get_messages();
-    //this.get_users();
+    //this.get_messages();
+    this.get_test();
   }
 
   render() {
