@@ -16,36 +16,9 @@ class chatmain extends React.Component {
     };
   }
 
-  async get_test() {
-    await fetch("http://localhost:8000/test", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        uid: "localStorage.getItem(chat-app-uid)",
-        to: "to",
-      }),
-    })
-      .then((file) => file.json())
-      .then((res) => {
-        if (res.success) {
-          //this.props.dispatch({ type: "GET_MESSAGE", payload: res.message });
-          alert(JSON.stringify(res));
-        } else {
-          this.setState((prev) => ({
-            ...prev,
-            error: res.message,
-          }));
-        }
-      });
-  }
-
   get_messages = async () => {
     const { dispatch } = this.props;
-    await fetch("http://localhost:8000/get_messages", {
+    await fetch(process.env.REACT_APP_SERVER + "chat/get_messages", {
       method: "POST",
       mode: "cors",
       //credentials: "include",
@@ -69,32 +42,8 @@ class chatmain extends React.Component {
     });
   };
 
-  get_users = async () => {
-    await fetch("http://localhost:8000/get_message_user", {
-      method: "post",
-      mode: "cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "text/plain",
-      },
-      body: JSON.stringify({ uid: localStorage.getItem("chat-app-uid") }),
-    })
-      .then((file) =>
-        file.json().then((res) => {
-          this.setState((prev) => ({ ...prev, users: res }));
-        })
-      )
-      .catch((err) => {
-        this.setState((prev) => ({
-          ...prev,
-          err: "No Connection to Internet",
-        }));
-      });
-  };
-
   async UNSAFE_componentWillMount() {
-    //this.get_messages();
-    this.get_test();
+    this.get_messages();
   }
 
   render() {

@@ -53,7 +53,7 @@ class Chat extends React.Component {
 
   delete_options = (id) => {
     if (window.confirm("Are you sure you want to delete the message?")) {
-      fetch("http://localhost:8000/delete_message", {
+      fetch(process.env.REACT_APP_SERVER + "chat/delete_message", {
         method: "DELETE",
         credentials: "include",
         headers: {

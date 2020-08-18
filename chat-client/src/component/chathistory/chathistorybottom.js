@@ -14,7 +14,6 @@ class ChatHistoryBottom extends React.Component {
       text: "",
       display: "none",
     };
-    //this.socket = io("http://localhost:8000");
   }
   handle = (e) => {
     const { name, value } = e.target;

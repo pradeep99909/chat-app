@@ -16,44 +16,7 @@ class ChatHistoryMain extends React.Component {
     };
   }
 
-  get_chat_history = async (to) => {
-    //this.props.dispatch({ type: "SET_MESSAGE" });
-    await fetch("http://localhost:8000/chat_history", {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "text/plain",
-        Authorization: "Brearer " + localStorage.getItem("chat-app-token"),
-      },
-      body: JSON.stringify({
-        uid: localStorage.getItem("chat-app-uid"),
-        to: to,
-      }),
-    })
-      .then((file) => file.json())
-      .then((res) => {
-        if (res.success) {
-          this.props.dispatch({ type: "GET_MESSAGE", payload: res.message });
-        } else {
-          this.setState((prev) => ({
-            ...prev,
-            error: res.message,
-          }));
-        }
-      });
-  };
-  get_chat_history_socket = () => {
-    //this.socket.in("hello").on(localStorage.getItem("chat-app-uid"), (data) => {
-    ///this.props.dispatch({ type: "ADD_MESSAGE", payload: data });
-    //});
-  };
-  componentWillMount = () => {
-    //this.get_chat_history(this.props.to);
-  };
   componentDidMount() {
-    // this.socket = io("http://localhost:8000");
     socket.on(localStorage.getItem("chat-app-uid"), (data) => {
       this.props.dispatch({ type: "ADD_MESSAGE", payload: data });
     });

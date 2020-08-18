@@ -20,7 +20,7 @@ class Login extends React.Component {
         error: "",
         loading: true,
       }));
-      fetch("http://localhost:8000/auth_login", {
+      fetch(process.env.REACT_APP_SERVER + "auth/login", {
         method: "POST",
         mode: "cors",
         headers: {
@@ -117,7 +117,7 @@ class Register extends React.Component {
         error: "",
         loading: true,
       }));
-      fetch("http://localhost:8000/auth_register", {
+      fetch(process.env.REACT_APP_SERVER + "auth/register", {
         method: "POST",
         mode: "cors",
         headers: {

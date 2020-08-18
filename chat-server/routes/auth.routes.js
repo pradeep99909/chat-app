@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 var AuthRouter = express.Router();
 
-var verifyUser = require("../functions/verifyuser");
 var Auth = require("./auth_function/auth");
 
 AuthRouter.route("/register").post((req, res) => {
