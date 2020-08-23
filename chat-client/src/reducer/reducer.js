@@ -1,7 +1,9 @@
 import getkey from "./getKey";
 import getMessageKey from "./get_message_key";
 
-function reducer(state, action) {
+import init_state from "../state/state";
+
+function reducer(state = init_state, action) {
   switch (action.type) {
     case "ADD_MESSAGE":
       var length = state.messages.length;

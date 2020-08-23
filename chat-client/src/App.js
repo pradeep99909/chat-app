@@ -12,11 +12,7 @@ import { Provider } from "react-redux";
 
 const history = createBrowserHistory();
 
-var init_state = {
-  messages: null,
-};
-
-const store = createStore(reducer(init_state));
+const store = createStore(reducer);
 
 class App extends React.Component {
   constructor(props) {
