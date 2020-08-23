@@ -16,42 +16,7 @@ class ChatHistoryMain extends React.Component {
     };
   }
 
-  get_chat_history = async (to) => {
-    //this.props.dispatch({ type: "SET_MESSAGE" });
-    await fetch("https://chat-server.pradeep99909.now.sh/chat_history", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "text/plain",
-      },
-      body: JSON.stringify({
-        uid: localStorage.getItem("chat-app-uid"),
-        to: to,
-      }),
-    })
-      .then((file) => file.json())
-      .then((res) => {
-        if (res.success) {
-          this.props.dispatch({ type: "GET_MESSAGE", payload: res.message });
-        } else {
-          this.setState((prev) => ({
-            ...prev,
-            error: res.message,
-          }));
-        }
-      });
-  };
-  get_chat_history_socket = () => {
-    //this.socket.in("hello").on(localStorage.getItem("chat-app-uid"), (data) => {
-    ///this.props.dispatch({ type: "ADD_MESSAGE", payload: data });
-    //});
-  };
-  componentWillMount = () => {
-    //this.get_chat_history(this.props.to);
-  };
   componentDidMount() {
-    // this.socket = io("https://chat-server.pradeep99909.now.sh");
     socket.on(localStorage.getItem("chat-app-uid"), (data) => {
       this.props.dispatch({ type: "ADD_MESSAGE", payload: data });
     });
@@ -69,7 +34,6 @@ class ChatHistoryMain extends React.Component {
     return (
       <div className="chat-history-main" id="chat-history">
         {this.props.messages !== null ? (
-          // (console.log(this.props.messages),
           this.props.messages
             .filter((don) => {
               if (don._id === this.props.to) {
@@ -81,10 +45,12 @@ class ChatHistoryMain extends React.Component {
                 return (
                   <Chat
                     key={key}
+                    to={this.props.to}
                     from={d.from}
                     message={d.message}
                     type={d.type}
                     time={d.time}
+                    id={d._id}
                   />
                 );
               });

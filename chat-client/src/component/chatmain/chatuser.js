@@ -18,7 +18,7 @@ class chatuser extends React.Component {
           style={{ borderRadius: "100%" }}
           width="50"
           height="50"
-          src="https://images.unsplash.com/photo-1527980965255-d3b416303d12"
+          src="https://i.stack.imgur.com/l60Hf.png"
         />
         <div className="chat-user-message">
           <h4 style={{ fontSize: 16 }}>{this.props.name}</h4>

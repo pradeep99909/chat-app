@@ -92,7 +92,6 @@ class Chat {
       "mongodb+srv://admin:admin78@cluster0-h9gpw.mongodb.net/test?retryWrites=true&w=majority",
       { useUnifiedTopology: true, useNewUrlParser: true }
     );
-    console.log(id);
     var dbo = await db.db("chat");
     dbo
       .collection("messages")
