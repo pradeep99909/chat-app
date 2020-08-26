@@ -44,7 +44,7 @@ app.post("/subscribe", (req, res) => {
   webpush.sendNotification(subscription, "hello");
 });
 
-const server = app.listen(8000);
+const server = app.listen(process.env.PORT || 8000);
 
 const io = socket(server);
 
