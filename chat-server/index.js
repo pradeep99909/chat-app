@@ -14,11 +14,7 @@ var ChatRouter = require("./routes/chat.routes");
 var verifyUser = require("./functions/verifyuser");
 
 //middleware
-app.use(
-  bodyParser.json({
-    type: ["application/json", "text/plain"],
-  })
-);
+app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "../chat-client/build")));
 
