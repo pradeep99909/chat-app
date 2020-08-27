@@ -21,11 +21,11 @@ class chatmain extends React.Component {
     await fetch(process.env.REACT_APP_SERVER + "chat/get_messages", {
       method: "POST",
       mode: "cors",
-      //credentials: "include",
+      credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        //Authorization: "Brearer " + localStorage.getItem("chat-app-token"),
+        Authorization: "Brearer " + localStorage.getItem("chat-app-token"),
       },
       body: JSON.stringify({ uid: localStorage.getItem("chat-app-uid") }),
     }).then((file) => {
