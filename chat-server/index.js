@@ -16,11 +16,11 @@ var verifyUser = require("./functions/verifyuser");
 //middleware
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, "../chat-client/build")));
+
 app.use("/api", router);
 router.use("/chat", ChatRouter);
 router.use("/auth", AuthRouter);
-
-app.use(express.static(path.join(__dirname, "../chat-client/build")));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../chat-client/build"));
@@ -42,7 +42,7 @@ app.post("/subscribe", (req, res) => {
   webpush.sendNotification(subscription, "hello");
 });
 
-const server = app.listen(8000);
+const server = app.listen(process.env.PORT || 8000);
 
 const io = socket(server);
 
