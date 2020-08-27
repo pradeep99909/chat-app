@@ -25,7 +25,7 @@ class Login extends React.Component {
         mode: "cors",
         headers: {
           Accept: "application/json",
-          "Content-Type": "text/plain",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: this.state.email,
@@ -122,7 +122,7 @@ class Register extends React.Component {
         mode: "cors",
         headers: {
           Accept: "application/json",
-          "Content-Type": "text/plain",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: this.state.username,
