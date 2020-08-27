@@ -2,7 +2,7 @@
   "name": "chat-app",
   "version": "0.1.0",
   "scripts": {
-    "start": "cd chat-server && npm install && node index.js"
+    "start": "cd chat-client && npm install && npm run build && cd ../chat-server && npm install && node index.js"
   },
   "description": "App is built using MongoDB,ExpressJS,ReactJS and Node",
   "main": "./chat-server/index.js",
