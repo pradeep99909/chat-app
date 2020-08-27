@@ -20,9 +20,11 @@ app.use(
   })
 );
 
+app.use(express.static(path.join(__dirname, "../chat-client/build")));
+
 app.use("/api", router);
 router.use("/chat", ChatRouter);
-router.use("/api", AuthRouter);
+router.use("/auth", AuthRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../chat-client/build"));
