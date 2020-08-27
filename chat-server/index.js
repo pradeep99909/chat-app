@@ -14,15 +14,13 @@ var ChatRouter = require("./routes/chat.routes");
 var verifyUser = require("./functions/verifyuser");
 
 //middleware
-app.use(
-  bodyParser.json({
-    type: ["application/json", "text/plain"],
-  })
-);
+app.use(express.json());
 
 app.use("/api", router);
 router.use("/chat", ChatRouter);
-router.use("/api", AuthRouter);
+router.use("/auth", AuthRouter);
+
+app.use(express.static(path.join(__dirname, "../chat-client/build")));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../chat-client/build"));
