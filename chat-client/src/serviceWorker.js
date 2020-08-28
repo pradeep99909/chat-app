@@ -53,7 +53,7 @@ export async function register(config) {
             mode: "cors",
             headers: {
               Accept: "application/json",
-              "Content-Type": "text/plain",
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(subscription),
           });

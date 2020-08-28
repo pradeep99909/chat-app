@@ -58,7 +58,7 @@ class Chat extends React.Component {
         credentials: "include",
         headers: {
           Accept: "application/json",
-          "Content-Type": "text/plain",
+          "Content-Type": "application/json",
           Authorization: "Brearer " + localStorage.getItem("chat-app-token"),
         },
         body: JSON.stringify({ id }),
