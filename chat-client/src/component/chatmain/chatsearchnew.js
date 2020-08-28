@@ -16,7 +16,7 @@ class ChatSearchNew extends React.Component {
       mode: "cors",
       headers: {
         Accept: "application/json",
-        "Content-Type": "text/plain",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ user: input }),
     }).then((file) =>
