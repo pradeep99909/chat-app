@@ -12,6 +12,8 @@ const webpush = require("web-push");
 var AuthRouter = require("./routes/auth.routes");
 var ChatRouter = require("./routes/chat.routes");
 var verifyUser = require("./functions/verifyuser");
+var Chat = require("./routes/chat function/chat");
+var Auth = require("./routes/auth_function/auth");
 
 //middleware
 app.use(express.json());
