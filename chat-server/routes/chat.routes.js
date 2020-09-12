@@ -3,7 +3,7 @@ const app = express();
 var ChatRouter = express.Router();
 const bodyParser = require("body-parser");
 
-var { Chat } = require("./chat function/chat");
+var { Chat } = require("./chat_function/chat");
 var verifyUser = require("../functions/verifyuser");
 
 ChatRouter.route("/get_messages").post(verifyUser, (req, res) => {
