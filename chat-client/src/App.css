@@ -101,7 +101,7 @@
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  padding-left: 20px;
+  /* padding-left: 20px; */
   height: calc(100% - 80px);
 }
 
@@ -176,6 +176,7 @@
 .chat-search-main .chat-user {
   display: flex;
   margin: 10px 0px;
+  padding-left: 20px;
   cursor: pointer;
 }
 

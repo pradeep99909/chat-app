@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route, withRouter } from "react-router";
 import { Link } from "react-router-dom";
+import * as PusherPushNotifications from "@pusher/push-notifications-web"
 
 class Login extends React.Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class Login extends React.Component {
             localStorage.setItem("chat-app-uid", res.uid);
             localStorage.setItem("chat-app-token", res.token);
             localStorage.setItem("chat-app-isLogined", true);
+            
             this.props.history.push("/chat");
           }
         });

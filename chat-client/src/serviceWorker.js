@@ -37,7 +37,7 @@ export async function register(config) {
   if ("serviceWorker" in navigator) {
     Notification.requestPermission();
     await navigator.serviceWorker
-      .register("/service-worker.js", {
+      .register("https://js.pusher.com/beams/service-worker.js", {
         scope: "/",
       })
       .then(async (reg) => {
