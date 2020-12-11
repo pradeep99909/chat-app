@@ -30,9 +30,9 @@
             });
       
             const tokenProvider = new PusherPushNotifications.TokenProvider({
-              url: 'http://localhost:8000/pusher/beams-auth', 
+              url: '/pusher/beams-auth', 
               //queryParams: { someQueryParam: 'parameter-content' }, // URL query params your auth endpoint needs
-              headers: { "Access-Control-Allow-Origin": '*' }, // Headers your auth endpoint needs
+              //headers: { "Access-Control-Allow-Origin": '*' }, // Headers your auth endpoint needs
             });      
             beamsClient
             .start()
