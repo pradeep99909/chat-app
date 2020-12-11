@@ -33,16 +33,17 @@
               url: '/pusher/beams-auth', 
               //queryParams: { someQueryParam: 'parameter-content' }, // URL query params your auth endpoint needs
               //headers: { "Access-Control-Allow-Origin": '*' }, // Headers your auth endpoint needs
-            });      
-            beamsClient
-            .start()
-            .then(() => beamsClient.setUserId("2802a8a9-faf5-43f2-ab15-a27e932af18d", tokenProvider))
-            .catch(console.error);
-          
+            });
+            
             beamsClient.start()
               .then(() => beamsClient.addDeviceInterest('hello'))
               .then(() => console.log('Successfully registered and subscribed!'))
               .catch(console.error);
+
+            beamsClient
+            .start()
+            .then(() => beamsClient.setUserId("2802a8a9-faf5-43f2-ab15-a27e932af18d", tokenProvider))
+            .catch(console.error);
     </script>
   </head>
   <body>
