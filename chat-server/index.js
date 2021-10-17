@@ -87,14 +87,16 @@ io.on("connection", (socket) => {
         () => {
           const Auth1 = new Auth()
           Auth1.getUID(data.to,(uid)=>{
-            beamsClient.publishToUsers([uid], {
+            console.log(data)
+            beamsClient.publishToUsers(['2802a8a9-faf5-43f2-ab15-a27e932af18d'], {
               web: {
                 notification: {
-                  title: data.from,
+                  title: "Message from "+data.from,
                   body: data.message
                 }
               }
             }).then((publishResponse) => {
+              //code to update the message is sent
               console.log('Just published:', publishResponse.publishId);
             }).catch((error) => {
               console.error('Error:', error);
